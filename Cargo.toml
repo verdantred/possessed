@@ -1,0 +1,7 @@
+[package]
+name = "possesed"
+version = "0.1.0"
+authors = ["Ville Niittunen <ww.niittunen@microsoft.com>"]
+
+[dependencies]
+sdl2 = "0.13"
