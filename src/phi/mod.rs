@@ -2,6 +2,7 @@
 #[macro_use]
 mod events;
 pub mod data;
+pub mod gfx;
 
 use sdl2::render::Renderer;
 
@@ -28,6 +29,13 @@ pub struct Phi<'window> {
 }
 
 impl<'window> Phi<'window> {
+    fn new(events: Events, renderer: Renderer<'window>) -> Phi<'window> {
+        Phi {
+            events: events,
+            renderer: renderer,
+        }
+    }
+
     pub fn output_size(&self) -> (f64, f64) {
         let (w, h) = self.renderer.output_size().unwrap();
         (w as f64, h as f64)
@@ -97,13 +105,11 @@ pub fn spawn<F>(title: &str, init: F)
         .unwrap();
 
     // Create the context
-    let mut context = Phi {
-        events: Events::new(sdl_context.event_pump().unwrap()),
-        renderer: window.renderer()
-            .accelerated()
-            .build()
-            .unwrap(),
-    };
+    let mut context = Phi::new(
+    Events::new(sdl_context.event_pump().unwrap()),
+    window.renderer()
+        .accelerated()
+        .build().unwrap());
 
     // Create the default view
     let mut current_view = init(&mut context);
